@@ -30,29 +30,28 @@ function removeClick(event) {
     event.target.parentElement.remove();
 }
 
-function createTodo(todo) {
+function getTodoType() {
     const todoTypes = document.getElementsByClassName('todo-radio-input');
     for (let i = 0; i < todoTypes.length; i++) {
         if (todoTypes[i].checked) {
-            const todoType = todoTypes[i].value;
-            let todos = JSON.parse(localStorage.getItem(todoType)) || [];
-            todos.unshift(todo);
-            localStorage.setItem(todoType, JSON.stringify(todos));
-            addTodoItem(todo, false);
+            return todoTypes[i].value;
         }
     }
 }
 
+function createTodo(todo) {
+    const todoType = getTodoType();
+    let todos = JSON.parse(localStorage.getItem(todoType)) || [];
+    todos.unshift(todo);
+    localStorage.setItem(todoType, JSON.stringify(todos));
+    addTodoItem(todo, false);
+}
+
 function deleteTodo(todo) {
-    const todoTypes = document.getElementsByClassName('todo-radio-input');
-    for (let i = 0; i < todoTypes.length; i++) {
-        if (todoTypes[i].checked) {
-            const todoType = todoTypes[i].value;
-            let todos = JSON.parse(localStorage.getItem(todoType)) || [];
-            todos = todos.filter(t => t !== todo);
-            localStorage.setItem(todoType, JSON.stringify(todos));
-        }
-    }
+    const todoType = getTodoType();
+    let todos = JSON.parse(localStorage.getItem(todoType)) || [];
+    todos = todos.filter(t => t !== todo);
+    localStorage.setItem(todoType, JSON.stringify(todos));
 }
 
 function addTodoItem(todo, append = true) {
@@ -103,13 +102,8 @@ function handleDrop(item) {
     item.target.classList.remove('reorder-in-progress');
     const list = document.getElementById('todo-list');
     const todos = Array.prototype.map.call(list.children, li => li.firstChild.textContent);
-    const todoTypes = document.getElementsByClassName('todo-radio-input');
-    for (let i = 0; i < todoTypes.length; i++) {
-        if (todoTypes[i].checked) {
-            const todoType = todoTypes[i].value;
-            localStorage.setItem(todoType, JSON.stringify(todos));
-        }
-    }
+    const todoType = getTodoType();
+    localStorage.setItem(todoType, JSON.stringify(todos));
 }
 
 // Ionic Component Icons & Links
