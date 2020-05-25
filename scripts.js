@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     initIonicComponents();
+
+    enableDragSort('drag-drop-reorder');
 });
 
 function addTodo() {
@@ -74,22 +76,17 @@ function initIonicComponents() {
         'toggle',
         'toolbar'
     ];
-
     const list = document.getElementById('ionic-component-list');
-
     ionicComponents.forEach(str => {
-
         let title = str;
         let url = `https://ionicframework.com/docs/api/${str}`;
         let icon = `https://ionicframework.com/docs/assets/icons/component-${str}-icon.png`;
-
         if (str[0] === '!') {
             const arr = str.split('!');
             title = arr[1];
             url = arr[2];
             icon = arr[3];
         }
-
         appendImage(list, title, url, icon);
     });
 }
@@ -106,4 +103,43 @@ function appendImage(parent, title, url, icon) {
     parent.appendChild(img);
 }
 
+// Drag & Drop Todo Re-ordering
 
+function enableDragSort(listClass) {
+    const sortableLists = document.getElementsByClassName(listClass);
+    Array.prototype.map.call(sortableLists, (list) => {enableDragList(list)});
+}
+
+function enableDragList(list) {
+    Array.prototype.map.call(list.children, (item) => {enableDragItem(item)});
+}
+
+function enableDragItem(item) {
+    item.setAttribute('draggable', true)
+    item.ondrag = handleDrag;
+    item.ondragend = handleDrop;
+}
+
+function handleDrag(item) {
+    const selectedItem = item.target,
+            list = selectedItem.parentNode,
+            x = event.clientX,
+            y = event.clientY;
+
+    selectedItem.classList.add('reorder-in-progress');
+    let swapItem = document.elementFromPoint(x, y) === null ? selectedItem : document.elementFromPoint(x, y);
+
+    if (list === swapItem.parentNode) {
+        swapItem = swapItem !== selectedItem.nextSibling ? swapItem : swapItem.nextSibling;
+        list.insertBefore(selectedItem, swapItem);
+    }
+}
+
+function handleDrop(item) {
+    item.target.classList.remove('reorder-in-progress');
+    const list = document.getElementById('todo-list');
+    const todos = Array.prototype.map.call(list.children, li => {
+        return li.firstChild.textContent;
+    });
+    localStorage.setItem('todos', JSON.stringify(todos));
+}

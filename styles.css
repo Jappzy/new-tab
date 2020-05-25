@@ -5,7 +5,7 @@
 .container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-column-gap: 10vw;
+    grid-column-gap: 32px;
     padding-top: 3vh;
 }
 
@@ -21,6 +21,13 @@ ul li {
     border: 2px solid gray;
     border-radius: 10px;
     position: relative;
+}
+
+ul li.reorder-in-progress {
+    background: transparent;
+    color: transparent;
+    border: transparent;
+    box-shadow: inset 0px 0px 24px 4px #cccccc;
 }
 
 ul li button {
