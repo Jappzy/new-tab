@@ -53,11 +53,11 @@ function addTodoItem(todo, append = true) {
 
 function enableDragSort(listClass) {
     const sortableLists = document.getElementsByClassName(listClass);
-    Array.prototype.map.call(sortableLists, (list) => {enableDragList(list)});
+    Array.prototype.map.call(sortableLists, list => enableDragList(list));
 }
 
 function enableDragList(list) {
-    Array.prototype.map.call(list.children, (item) => {enableDragItem(item)});
+    Array.prototype.map.call(list.children, item => enableDragItem(item));
 }
 
 function enableDragItem(item) {
