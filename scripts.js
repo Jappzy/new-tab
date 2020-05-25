@@ -7,7 +7,13 @@ function initTodos() {
     document.getElementById('input').addEventListener('keyup', ({ keyCode }) => {
         if (keyCode == 13) addClick();
     });
-    const todos = JSON.parse(localStorage.getItem('todos')) || [];
+    const todos = JSON.parse(localStorage.getItem('today-todos')) || [];
+    todos.forEach(text => addTodoItem(text));
+}
+
+function todoChange(type) {
+    document.getElementById('todo-list').innerHTML = '';
+    const todos = JSON.parse(localStorage.getItem(type)) || [];
     todos.forEach(text => addTodoItem(text));
 }
 
@@ -25,16 +31,28 @@ function removeClick(event) {
 }
 
 function createTodo(todo) {
-    let todos = JSON.parse(localStorage.getItem('todos')) || [];
-    todos.unshift(todo);
-    localStorage.setItem('todos', JSON.stringify(todos));
-    addTodoItem(todo, false);
+    const todoTypes = document.getElementsByClassName('todo-radio-input');
+    for (let i = 0; i < todoTypes.length; i++) {
+        if (todoTypes[i].checked) {
+            const todoType = todoTypes[i].value;
+            let todos = JSON.parse(localStorage.getItem(todoType)) || [];
+            todos.unshift(todo);
+            localStorage.setItem(todoType, JSON.stringify(todos));
+            addTodoItem(todo, false);
+        }
+    }
 }
 
 function deleteTodo(todo) {
-    let todos = JSON.parse(localStorage.getItem('todos')) || [];
-    todos = todos.filter(t => t !== todo);
-    localStorage.setItem('todos', JSON.stringify(todos));
+    const todoTypes = document.getElementsByClassName('todo-radio-input');
+    for (let i = 0; i < todoTypes.length; i++) {
+        if (todoTypes[i].checked) {
+            const todoType = todoTypes[i].value;
+            let todos = JSON.parse(localStorage.getItem(todoType)) || [];
+            todos = todos.filter(t => t !== todo);
+            localStorage.setItem(todoType, JSON.stringify(todos));
+        }
+    }
 }
 
 function addTodoItem(todo, append = true) {
@@ -53,11 +71,11 @@ function addTodoItem(todo, append = true) {
 
 function enableDragSort(listClass) {
     const sortableLists = document.getElementsByClassName(listClass);
-    Array.prototype.map.call(sortableLists, list => enableDragList(list));
+    Array.prototype.map.call(sortableLists, enableDragList);
 }
 
 function enableDragList(list) {
-    Array.prototype.map.call(list.children, item => enableDragItem(item));
+    Array.prototype.map.call(list.children, enableDragItem);
 }
 
 function enableDragItem(item) {
@@ -85,10 +103,16 @@ function handleDrop(item) {
     item.target.classList.remove('reorder-in-progress');
     const list = document.getElementById('todo-list');
     const todos = Array.prototype.map.call(list.children, li => li.firstChild.textContent);
-    localStorage.setItem('todos', JSON.stringify(todos));
+    const todoTypes = document.getElementsByClassName('todo-radio-input');
+    for (let i = 0; i < todoTypes.length; i++) {
+        if (todoTypes[i].checked) {
+            const todoType = todoTypes[i].value;
+            localStorage.setItem(todoType, JSON.stringify(todos));
+        }
+    }
 }
 
-// Ionic
+// Ionic Component Icons & Links
 
 function initIonicComponents() {
     const ionicComponents = [
