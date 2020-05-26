@@ -1,6 +1,6 @@
 # New Tab or Home page for web browsers
 - Todo list, common links, gsuite links, ionic components
-- Only plain web technologies - a single file for html, css, & js
+- Only simple, plain, & vanilla web tech
 - Responsive with cool effects
 
 ## Todo List
