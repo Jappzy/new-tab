@@ -158,6 +158,8 @@ function appendImage(parent, title, url, icon) {
     img.title = title;
     img.src = icon;
     img.alt = `ion-${title}`;
+    img.height = '96';
+    img.width = '96';
     img.classList.add(['logo-image']);
     img.addEventListener('click', () => {
         window.open(url, '_self');
