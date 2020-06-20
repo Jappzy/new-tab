@@ -45,6 +45,14 @@ body {
     }
 }
 
+.todo-radios {
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff80;
+    margin: 2em auto;
+    border-radius: 5px;
+}
+
 ul {
     height: 70vh;
     overflow-y: scroll;
@@ -102,9 +110,47 @@ label:hover {
 }
 
 .icon-list {
-    display: flex; justify-content: center; align-items: center; flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 2.5em;
 }
 
 .icon-list > * {
     margin: 1em;
+}
+
+.gsuite-icon-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 8px;
+    height: 100px;
+    width: 100px;
+    margin-top: -12px;
+    margin-right: -12px;
+}
+
+.gsuite-icon {
+    background-image: url(./gsuite.png);
+    background-size: 64px 2824px;
+    height: 64px;
+    width: 64px;
+}
+
+#calendar {
+    background-position: 0 -2553px;
+}
+
+#gmail {
+    background-position: 0 -483px;
+}
+
+#drive {
+    background-position: 0 -2277px;
+}
+
+#youtube {
+    background-position: 0 -1311px;
 }
